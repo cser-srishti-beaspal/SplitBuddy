@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+    <!-- Teal to Emerald Gradient -->
+    <linearGradient id="tealEmerald" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#14b8a6" />
+      <stop offset="100%" stop-color="#10b981" />
+    </linearGradient>
+    <!-- Orange to Coral Gradient for splitting -->
+    <linearGradient id="orangeCoral" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f59e0b" />
+      <stop offset="100%" stop-color="#ef4444" />
+    </linearGradient>
+    <!-- Glow Filter -->
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="10" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Background Base -->
+  <rect width="512" height="512" rx="128" fill="url(#bgGrad)" />
+
+  <!-- Outer Ring (Splitting path) -->
+  <circle cx="256" cy="256" r="210" fill="none" stroke="url(#tealEmerald)" stroke-width="8" stroke-dasharray="16 12" opacity="0.4" />
+  
+  <!-- Intersecting splitting lines -->
+  <path d="M 100 256 L 412 256" stroke="url(#tealEmerald)" stroke-width="4" stroke-dasharray="8 8" opacity="0.3" />
+  <path d="M 256 100 L 256 412" stroke="url(#tealEmerald)" stroke-width="4" stroke-dasharray="8 8" opacity="0.3" />
+
+  <!-- Main Styled Rupee Symbol Symbol with Splitting Arrow Accents -->
+  <g filter="url(#glow)">
+    <!-- Main Rupee body -->
+    <path d="
+      M 180 150 
+      H 332 
+      M 180 200 
+      H 310
+      C 310 200, 310 280, 230 280 
+      H 180 
+      L 310 410" 
+      fill="none" 
+      stroke="url(#tealEmerald)" 
+      stroke-width="38" 
+      stroke-linecap="round" 
+      stroke-linejoin="round" />
+      
+    <!-- Splitting arrows overlay -->
+    <circle cx="332" cy="150" r="14" fill="url(#orangeCoral)" />
+    <circle cx="180" cy="280" r="14" fill="url(#orangeCoral)" />
+    <circle cx="310" cy="410" r="14" fill="url(#orangeCoral)" />
+  </g>
+</svg>

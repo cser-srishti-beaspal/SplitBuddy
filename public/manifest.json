@@ -1,0 +1,18 @@
+{
+  "short_name": "SplitBuddy",
+  "name": "SplitBuddy - Splitwise Clone",
+  "description": "Premium split-expense web app to manage shared bills and debts with friends and groups.",
+  "icons": [
+    {
+      "src": "/logo.svg",
+      "type": "image/svg+xml",
+      "sizes": "any",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#0f172a",
+  "theme_color": "#14b8a6",
+  "display": "standalone",
+  "orientation": "portrait"
+}
