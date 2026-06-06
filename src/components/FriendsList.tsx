@@ -42,7 +42,7 @@ export default function FriendsList() {
         }
 
         // Get friend IDs
-        const friendIds = friendLinks.map(link => 
+        const friendIds = friendLinks.map((link: any) => 
           link.user_id === myId ? link.friend_id : link.user_id
         );
 
@@ -55,7 +55,7 @@ export default function FriendsList() {
         if (profsError) throw profsError;
 
         const profileMap = new Map<string, Profile>();
-        profilesData?.forEach(p => profileMap.set(p.id, p));
+        profilesData?.forEach((p: any) => profileMap.set(p.id, p));
 
         // 2. Fetch all individual/shared expenses to compute balances with each friend
         // Get splits where current user is involved
@@ -64,7 +64,7 @@ export default function FriendsList() {
           .select('expense_id')
           .eq('user_id', myId);
         
-        const splitIds = mySplits?.map(s => s.expense_id) || [];
+        const splitIds = mySplits?.map((s: any) => s.expense_id) || [];
 
         let expensesQuery = supabase
           .from('expenses')
@@ -85,26 +85,26 @@ export default function FriendsList() {
           .or(`payer_id.eq.${myId},payee_id.eq.${myId}`);
 
         // Calculate balance for each friend
-        const tempFriends: FriendListItem[] = friendIds.map(fid => {
+        const tempFriends: FriendListItem[] = friendIds.map((fid: any) => {
           const friendProfile = profileMap.get(fid);
           if (!friendProfile) return null;
 
           let balance = 0;
 
           // Process expenses
-          expenses?.forEach(exp => {
+          expenses?.forEach((exp: any) => {
             const payerId = exp.paid_by;
             const splits = exp.expense_splits || [];
 
             if (payerId === myId) {
               // I paid: did this friend owe anything?
-              const friendSplit = splits.find(s => s.user_id === fid);
+              const friendSplit = splits.find((s: any) => s.user_id === fid);
               if (friendSplit) {
                 balance += Number(friendSplit.amount);
               }
             } else if (payerId === fid) {
               // Friend paid: did I owe anything?
-              const mySplit = splits.find(s => s.user_id === myId);
+              const mySplit = splits.find((s: any) => s.user_id === myId);
               if (mySplit) {
                 balance -= Number(mySplit.amount);
               }
@@ -112,7 +112,7 @@ export default function FriendsList() {
           });
 
           // Process settlements
-          settlements?.forEach(settle => {
+          settlements?.forEach((settle: any) => {
             const payerId = settle.payer_id;
             const payeeId = settle.payee_id;
             const amt = Number(settle.amount);

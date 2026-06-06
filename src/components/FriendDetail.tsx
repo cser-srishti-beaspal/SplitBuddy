@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useAppLayout } from './Layout';
 import supabase from '../supabaseClient';
@@ -64,7 +64,7 @@ export default function FriendDetail() {
         if (expensesError) throw expensesError;
 
         // Filter in JS to ensure mutual engagement
-        const mutualExpenses = expensesData?.filter(exp => {
+        const mutualExpenses = expensesData?.filter((exp: any) => {
           const payerId = exp.paid_by;
           const splits = exp.expense_splits || [];
           
@@ -76,7 +76,7 @@ export default function FriendDetail() {
             return splits.some((s: any) => s.user_id === myId);
           }
           return false;
-        }).map(exp => ({
+        }).map((exp: any) => ({
           ...exp,
           amount: Number(exp.amount),
           expense_splits: exp.expense_splits?.map((es: any) => ({
@@ -97,7 +97,7 @@ export default function FriendDetail() {
 
         if (settlementsError) throw settlementsError;
 
-        const formattedSettlements = settlementsData?.map(s => ({
+        const formattedSettlements = settlementsData?.map((s: any) => ({
           ...s,
           amount: Number(s.amount)
         })) || [];
@@ -107,19 +107,19 @@ export default function FriendDetail() {
         let tempBal = 0;
 
         // Process expenses
-        mutualExpenses.forEach(exp => {
+        mutualExpenses.forEach((exp: any) => {
           const payerId = exp.paid_by;
           const splits = exp.expense_splits || [];
           
           if (payerId === myId) {
             // I paid, friend owes me their split amount
-            const friendSplit = splits.find(s => s.user_id === friendId);
+            const friendSplit = splits.find((s: any) => s.user_id === friendId);
             if (friendSplit) {
               tempBal += friendSplit.amount;
             }
           } else {
             // Friend paid, I owe them my split amount
-            const mySplit = splits.find(s => s.user_id === myId);
+            const mySplit = splits.find((s: any) => s.user_id === myId);
             if (mySplit) {
               tempBal -= mySplit.amount;
             }
@@ -127,7 +127,7 @@ export default function FriendDetail() {
         });
 
         // Process settlements
-        formattedSettlements.forEach(settle => {
+        formattedSettlements.forEach((settle: any) => {
           const payerId = settle.payer_id;
           const amt = settle.amount;
 

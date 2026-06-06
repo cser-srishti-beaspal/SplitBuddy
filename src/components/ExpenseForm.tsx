@@ -74,7 +74,7 @@ export default function ExpenseForm({ groupId: propGroupId, friendId: propFriend
           .select('group_id')
           .eq('user_id', myId);
         
-        const groupIds = memberGroups?.map(mg => mg.group_id) || [];
+        const groupIds = memberGroups?.map((mg: any) => mg.group_id) || [];
         if (groupIds.length > 0) {
           const { data: grps } = await supabase.from('groups').select('*').in('id', groupIds);
           setGroups(grps || []);
@@ -86,7 +86,7 @@ export default function ExpenseForm({ groupId: propGroupId, friendId: propFriend
           .select('*')
           .or(`user_id.eq.${myId},friend_id.eq.${myId}`);
         
-        const fIds = friendLinks?.map(fl => fl.user_id === myId ? fl.friend_id : fl.user_id) || [];
+        const fIds = friendLinks?.map((fl: any) => fl.user_id === myId ? fl.friend_id : fl.user_id) || [];
         if (fIds.length > 0) {
           const { data: frnds } = await supabase.from('profiles').select('*').in('id', fIds);
           setFriends(frnds || []);
@@ -111,7 +111,7 @@ export default function ExpenseForm({ groupId: propGroupId, friendId: propFriend
             .select('*, profiles(*)')
             .eq('group_id', groupId);
           
-          gmData?.forEach(gm => {
+          gmData?.forEach((gm: any) => {
             if (gm.profiles) {
               membersList.push({
                 id: gm.profiles.id,

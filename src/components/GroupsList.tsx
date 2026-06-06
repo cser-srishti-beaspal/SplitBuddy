@@ -29,7 +29,7 @@ export default function GroupsList() {
 
         if (memberError) throw memberError;
         
-        const groupIds = memberRecords?.map(mr => mr.group_id) || [];
+        const groupIds = memberRecords?.map((mr: any) => mr.group_id) || [];
 
         if (groupIds.length === 0) {
           setGroups([]);
@@ -45,7 +45,7 @@ export default function GroupsList() {
 
         if (groupsError) throw groupsError;
 
-        const formattedGroups = groupsData?.map(g => ({
+        const formattedGroups = groupsData?.map((g: any) => ({
           id: g.id,
           name: g.name,
           description: g.description,

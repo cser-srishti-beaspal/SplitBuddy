@@ -42,7 +42,7 @@ export default function GroupDetail() {
   // Modals
   const [showAddExpense, setShowAddExpense] = useState(false);
   const [showSettle, setShowSettle] = useState(false);
-  const [showAddMember, setShowAddMember] = useState(false);
+
   
   // Add Member form state
   const [memberEmail, setMemberEmail] = useState('');
@@ -82,7 +82,7 @@ export default function GroupDetail() {
 
         if (membersError) throw membersError;
         
-        const formattedMembers = membersData?.map(m => ({
+        const formattedMembers = membersData?.map((m: any) => ({
           group_id: m.group_id,
           user_id: m.user_id,
           joined_at: m.joined_at,
@@ -91,7 +91,7 @@ export default function GroupDetail() {
         setMembers(formattedMembers);
 
         const memberMap = new Map<string, Profile>();
-        formattedMembers.forEach(m => {
+        formattedMembers.forEach((m: any) => {
           if (m.profile) memberMap.set(m.user_id, m.profile);
         });
 
@@ -104,7 +104,7 @@ export default function GroupDetail() {
 
         if (expensesError) throw expensesError;
         
-        const formattedExpenses = expensesData?.map(exp => ({
+        const formattedExpenses = expensesData?.map((exp: any) => ({
           ...exp,
           amount: Number(exp.amount),
           expense_splits: exp.expense_splits?.map((es: any) => ({
@@ -123,7 +123,7 @@ export default function GroupDetail() {
 
         if (settlementsError) throw settlementsError;
         
-        const formattedSettlements = settlementsData?.map(settle => ({
+        const formattedSettlements = settlementsData?.map((settle: any) => ({
           ...settle,
           amount: Number(settle.amount)
         })) || [];
@@ -132,12 +132,12 @@ export default function GroupDetail() {
         // 5. Compute Group Member Balances
         // Initialise balances to 0 for all members
         const balances: { [userId: string]: number } = {};
-        formattedMembers.forEach(m => {
+        formattedMembers.forEach((m: any) => {
           balances[m.user_id] = 0;
         });
 
         // Add expense splits
-        formattedExpenses.forEach(exp => {
+        formattedExpenses.forEach((exp: any) => {
           const payerId = exp.paid_by;
           const splits = exp.expense_splits || [];
           
@@ -147,7 +147,7 @@ export default function GroupDetail() {
           }
 
           // Each split owes a portion
-          splits.forEach(split => {
+          splits.forEach((split: any) => {
             if (balances[split.user_id] !== undefined) {
               balances[split.user_id] -= split.amount;
             }
@@ -155,7 +155,7 @@ export default function GroupDetail() {
         });
 
         // Adjust for settlements
-        formattedSettlements.forEach(settle => {
+        formattedSettlements.forEach((settle: any) => {
           const payerId = settle.payer_id; // who paid
           const payeeId = settle.payee_id; // who received
           
@@ -274,7 +274,6 @@ export default function GroupDetail() {
       triggerRefresh();
 
       setTimeout(() => {
-        setShowAddMember(false);
         setMemberSuccess('');
       }, 1500);
 

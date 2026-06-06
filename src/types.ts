@@ -42,6 +42,7 @@ export interface Expense {
   created_at: string;
   profiles?: Profile; // Paid by profile
   group_name?: string;
+  expense_splits?: ExpenseSplit[];
 }
 
 export interface ExpenseSplit {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAppLayout } from './Layout';
 import supabase from '../supabaseClient';
 import { 
@@ -70,13 +70,13 @@ export default function Dashboard() {
         // balanceMap keys: user_id, value: net balance (positive = they owe me, negative = I owe them)
         const balanceMap = new Map<string, number>();
 
-        expenses?.forEach(exp => {
+        expenses?.forEach((exp: any) => {
           const payerId = exp.paid_by;
           const splits = exp.expense_splits || [];
           
           if (payerId === myId) {
             // I paid: others owe me their split amounts
-            splits.forEach(split => {
+            splits.forEach((split: any) => {
               if (split.user_id !== myId) {
                 const currentBal = balanceMap.get(split.user_id) || 0;
                 balanceMap.set(split.user_id, currentBal + Number(split.amount));
@@ -84,7 +84,7 @@ export default function Dashboard() {
             });
           } else {
             // Someone else paid: I owe them my split amount
-            const mySplit = splits.find(s => s.user_id === myId);
+            const mySplit = splits.find((s: any) => s.user_id === myId);
             if (mySplit) {
               const currentBal = balanceMap.get(payerId) || 0;
               balanceMap.set(payerId, currentBal - Number(mySplit.amount));
@@ -92,7 +92,7 @@ export default function Dashboard() {
           }
         });
 
-        settlements?.forEach(settle => {
+        settlements?.forEach((settle: any) => {
           const payerId = settle.payer_id;
           const payeeId = settle.payee_id;
           const amt = Number(settle.amount);
@@ -140,7 +140,7 @@ export default function Dashboard() {
         // 5. Compile Recent Activities list (sort merged expenses & settlements by date/created_at)
         const tempActivities: ActivityItem[] = [];
 
-        expenses?.forEach(exp => {
+        expenses?.forEach((exp: any) => {
           const payerName = profileMap.get(exp.paid_by)?.name || 'Someone';
           tempActivities.push({
             id: exp.id,
@@ -154,7 +154,7 @@ export default function Dashboard() {
           });
         });
 
-        settlements?.forEach(settle => {
+        settlements?.forEach((settle: any) => {
           const payerName = profileMap.get(settle.payer_id)?.name || 'Someone';
           const payeeName = profileMap.get(settle.payee_id)?.name || 'Someone';
           tempActivities.push({
@@ -325,7 +325,7 @@ export default function Dashboard() {
                     <div style={{ color: 'var(--text-primary)', fontWeight: 550 }}>
                       {act.type === 'expense' ? (
                         <span>
-                          {act.paidBy === profile.id ? 'You' : act.payerName} added "<strong>{act.description}</strong>"
+                          {act.paidBy === profile?.id ? 'You' : act.payerName} added "<strong>{act.description}</strong>"
                           {act.groupName && <span style={{ color: 'var(--text-muted)' }}> in {act.groupName}</span>}
                         </span>
                       ) : (

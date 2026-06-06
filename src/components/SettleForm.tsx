@@ -42,7 +42,7 @@ export default function SettleForm({ groupId: propGroupId, friendId: propFriendI
           .select('group_id')
           .eq('user_id', myId);
         
-        const groupIds = memberGroups?.map(mg => mg.group_id) || [];
+        const groupIds = memberGroups?.map((mg: any) => mg.group_id) || [];
         if (groupIds.length > 0) {
           const { data: grps } = await supabase.from('groups').select('*').in('id', groupIds);
           setGroups(grps || []);
@@ -54,7 +54,7 @@ export default function SettleForm({ groupId: propGroupId, friendId: propFriendI
           .select('*')
           .or(`user_id.eq.${myId},friend_id.eq.${myId}`);
         
-        const fIds = friendLinks?.map(fl => fl.user_id === myId ? fl.friend_id : fl.user_id) || [];
+        const fIds = friendLinks?.map((fl: any) => fl.user_id === myId ? fl.friend_id : fl.user_id) || [];
         if (fIds.length > 0) {
           const { data: frnds } = await supabase.from('profiles').select('*').in('id', fIds);
           setFriends(frnds || []);
@@ -79,7 +79,7 @@ export default function SettleForm({ groupId: propGroupId, friendId: propFriendI
             .eq('group_id', groupId);
           
           const list: Profile[] = [];
-          gmData?.forEach(gm => {
+          gmData?.forEach((gm: any) => {
             if (gm.profiles) list.push(gm.profiles as Profile);
           });
           setEligibleUsers(list);
