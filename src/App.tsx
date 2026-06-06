@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import supabase from './supabaseClient.ts';
-import Auth from './components/Auth.tsx';
-import Layout from './components/Layout.tsx';
-import Dashboard from './components/Dashboard.tsx';
-import GroupsList from './components/GroupsList.tsx';
-import GroupDetail from './components/GroupDetail.tsx';
-import FriendsList from './components/FriendsList.tsx';
-import FriendDetail from './components/FriendDetail.tsx';
-import Profile from './components/Profile.tsx';
+import supabase from './supabaseClient';
+import Auth from './components/Auth';
+import Layout from './components/Layout';
+import Dashboard from './components/Dashboard';
+import GroupsList from './components/GroupsList';
+import GroupDetail from './components/GroupDetail';
+import FriendsList from './components/FriendsList';
+import FriendDetail from './components/FriendDetail';
+import Profile from './components/Profile';
 
 export default function App() {
   const [session, setSession] = useState<any>(null);

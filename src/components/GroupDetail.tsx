@@ -1,25 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { useAppLayout } from './Layout.tsx';
-import supabase from '../supabaseClient.ts';
+import { useAppLayout } from './Layout';
+import supabase from '../supabaseClient';
 import { 
-  Users, 
   Plus, 
   ArrowLeft, 
-  X, 
   UserPlus, 
   FileText, 
   DollarSign,
   Info,
-  Calendar,
   AlertCircle,
-  TrendingDown,
   TrendingUp,
   UserCheck
 } from 'lucide-react';
-import { Group, Profile, Expense, Settlement, GroupMember } from '../types.ts';
-import ExpenseForm from './ExpenseForm.tsx';
-import SettleForm from './SettleForm.tsx';
+import { Group, Profile, Expense, Settlement, GroupMember } from '../types';
+import ExpenseForm from './ExpenseForm';
+import SettleForm from './SettleForm';
 
 interface simplifiedDebt {
   from: string;

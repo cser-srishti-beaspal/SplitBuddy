@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { useAppLayout } from './Layout.tsx';
-import supabase from '../supabaseClient.ts';
+import { useAppLayout } from './Layout';
+import supabase from '../supabaseClient';
 import { 
   ArrowLeft, 
   Plus, 
@@ -12,9 +12,9 @@ import {
   CheckCircle,
   UserCheck
 } from 'lucide-react';
-import { Profile, Expense, Settlement } from '../types.ts';
-import ExpenseForm from './ExpenseForm.tsx';
-import SettleForm from './SettleForm.tsx';
+import { Profile, Expense, Settlement } from '../types';
+import ExpenseForm from './ExpenseForm';
+import SettleForm from './SettleForm';
 
 export default function FriendDetail() {
   const { id: friendId } = useParams<{ id: string }>();

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useAppLayout } from './Layout.tsx';
-import supabase from '../supabaseClient.ts';
+import { useAppLayout } from './Layout';
+import supabase from '../supabaseClient';
 import { Users, Plus, X, FolderPlus } from 'lucide-react';
-import { Group } from '../types.ts';
+import { Group } from '../types';
 
 export default function GroupsList() {
   const { profile, refreshKey, triggerRefresh } = useAppLayout();

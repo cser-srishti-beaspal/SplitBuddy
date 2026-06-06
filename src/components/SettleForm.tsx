@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { useAppLayout } from './Layout.tsx';
-import supabase from '../supabaseClient.ts';
-import { X, CheckCircle, ArrowRight, Calendar, AlertCircle } from 'lucide-react';
-import { Group, Profile } from '../types.ts';
+import { useAppLayout } from './Layout';
+import supabase from '../supabaseClient';
+import { X, ArrowRight, AlertCircle } from 'lucide-react';
+import { Group, Profile } from '../types';
 
 interface SettleFormProps {
   groupId?: string;

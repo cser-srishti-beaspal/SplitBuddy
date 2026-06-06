@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useAppLayout } from './Layout.tsx';
-import supabase from '../supabaseClient.ts';
+import { useAppLayout } from './Layout';
+import supabase from '../supabaseClient';
 import { User, Plus, X, UserPlus, Search, ArrowUpRight, ArrowDownLeft } from 'lucide-react';
-import { Profile } from '../types.ts';
+import { Profile } from '../types';
 
 interface FriendListItem {
   friendProfile: Profile;

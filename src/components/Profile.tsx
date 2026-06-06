@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { useAppLayout } from './Layout.tsx';
-import supabase from '../supabaseClient.ts';
+import { useAppLayout } from './Layout';
+import supabase from '../supabaseClient';
 import { 
-  User, 
   Mail, 
   Smartphone, 
   Download, 

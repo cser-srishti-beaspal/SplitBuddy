@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useAppLayout } from './Layout.tsx';
-import supabase from '../supabaseClient.ts';
+import { useAppLayout } from './Layout';
+import supabase from '../supabaseClient';
 import { 
   X, 
   Utensils, 
@@ -9,10 +9,9 @@ import {
   Zap, 
   Film, 
   HelpCircle, 
-  Calendar,
   AlertCircle
 } from 'lucide-react';
-import { Group, Profile } from '../types.ts';
+import { Group, Profile } from '../types';
 
 interface ExpenseFormProps {
   groupId?: string;

@@ -88,6 +88,21 @@ CREATE TABLE public.settlements (
 ALTER TABLE public.settlements ENABLE ROW LEVEL SECURITY;
 
 ---------------------------------------------------------
+-- SECURITY DEFINER HELPER FUNCTIONS
+---------------------------------------------------------
+CREATE OR REPLACE FUNCTION public.is_group_member(group_uuid UUID, user_uuid UUID)
+RETURNS BOOLEAN
+LANGUAGE sql
+SECURITY DEFINER
+SET search_path = ''
+AS $$
+  SELECT EXISTS (
+    SELECT 1 FROM public.group_members
+    WHERE group_id = group_uuid AND user_id = user_uuid
+  );
+$$;
+
+---------------------------------------------------------
 -- ROW LEVEL SECURITY (RLS) POLICIES
 ---------------------------------------------------------
 
@@ -124,10 +139,7 @@ CREATE POLICY "Users can view groups they are member of or created"
   TO authenticated
   USING (
     created_by = auth.uid() OR
-    EXISTS (
-      SELECT 1 FROM public.group_members
-      WHERE group_members.group_id = groups.id AND group_members.user_id = auth.uid()
-    )
+    public.is_group_member(id, auth.uid())
   );
 
 CREATE POLICY "Users can create groups"
@@ -139,17 +151,17 @@ CREATE POLICY "Users can update groups they are member of"
   ON public.groups FOR UPDATE
   TO authenticated
   USING (
-    EXISTS (
-      SELECT 1 FROM public.group_members
-      WHERE group_members.group_id = groups.id AND group_members.user_id = auth.uid()
-    )
+    public.is_group_member(id, auth.uid())
   );
 
 -- Group Members Policies
 CREATE POLICY "group_members_select_policy"
   ON public.group_members FOR SELECT
   TO authenticated
-  USING (true);
+  USING (
+    user_id = auth.uid() OR
+    public.is_group_member(group_id, auth.uid())
+  );
 
 CREATE POLICY "Group members can add other members"
   ON public.group_members FOR INSERT
@@ -160,10 +172,7 @@ CREATE POLICY "Group members can add other members"
       SELECT 1 FROM public.groups g
       WHERE g.id = group_members.group_id AND g.created_by = auth.uid()
     ) OR
-    EXISTS (
-      SELECT 1 FROM public.group_members gm
-      WHERE gm.group_id = group_members.group_id AND gm.user_id = auth.uid()
-    )
+    public.is_group_member(group_id, auth.uid())
   );
 
 CREATE POLICY "Group members can leave or remove members"
@@ -183,10 +192,7 @@ CREATE POLICY "expenses_select_policy"
   TO authenticated
   USING (
     created_by = auth.uid() OR
-    (group_id IS NOT NULL AND EXISTS (
-      SELECT 1 FROM public.group_members gm
-      WHERE gm.group_id = expenses.group_id AND gm.user_id = auth.uid()
-    )) OR
+    (group_id IS NOT NULL AND public.is_group_member(group_id, auth.uid())) OR
     (group_id IS NULL AND (
       paid_by = auth.uid() OR
       EXISTS (
@@ -201,7 +207,8 @@ CREATE POLICY "expenses_insert_policy"
   ON public.expenses FOR INSERT
   TO authenticated
   WITH CHECK (
-    auth.uid() = paid_by OR auth.uid() = created_by
+    (auth.uid() = paid_by OR auth.uid() = created_by) AND
+    (group_id IS NULL OR public.is_group_member(group_id, auth.uid()))
   );
 
 CREATE POLICY "expenses_delete_policy"
@@ -225,7 +232,14 @@ CREATE POLICY "splits_select_policy"
 CREATE POLICY "splits_insert_policy"
   ON public.expense_splits FOR INSERT
   TO authenticated
-  WITH CHECK (true);
+  WITH CHECK (
+    EXISTS (
+      SELECT 1 FROM public.expenses e
+      WHERE e.id = expense_splits.expense_id AND (
+        e.paid_by = auth.uid() OR e.created_by = auth.uid()
+      )
+    )
+  );
 
 CREATE POLICY "splits_delete_policy"
   ON public.expense_splits FOR DELETE
@@ -244,17 +258,15 @@ CREATE POLICY "Users can view settlements they are involved in or in their group
   USING (
     payer_id = auth.uid() OR
     payee_id = auth.uid() OR
-    (group_id IS NOT NULL AND EXISTS (
-      SELECT 1 FROM public.group_members gm
-      WHERE gm.group_id = settlements.group_id AND gm.user_id = auth.uid()
-    ))
+    (group_id IS NOT NULL AND public.is_group_member(group_id, auth.uid()))
   );
 
 CREATE POLICY "Users can record settlements"
   ON public.settlements FOR INSERT
   TO authenticated
   WITH CHECK (
-    payer_id = auth.uid() OR payee_id = auth.uid()
+    (payer_id = auth.uid() OR payee_id = auth.uid()) AND
+    (group_id IS NULL OR public.is_group_member(group_id, auth.uid()))
   );
 
 CREATE POLICY "Users can delete settlements they recorded"

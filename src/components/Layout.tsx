@@ -1,5 +1,5 @@
 import React, { useEffect, useState, createContext, useContext } from 'react';
-import { Link, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { 
   LayoutDashboard, 
   Users, 
@@ -10,9 +10,9 @@ import {
   Download,
   AlertCircle
 } from 'lucide-react';
-import supabase from '../supabaseClient.ts';
-import { Profile } from '../types.ts';
-import ExpenseForm from './ExpenseForm.tsx';
+import supabase from '../supabaseClient';
+import { Profile } from '../types';
+import ExpenseForm from './ExpenseForm';
 
 // Create a context so sub-pages can trigger layouts/modals and get user profile
 interface LayoutContextProps {
@@ -40,7 +40,6 @@ export default function Layout() {
   const [showAddExpense, setShowAddExpense] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
   const navigate = useNavigate();
-  const location = useLocation();
 
   const triggerRefresh = () => setRefreshKey(prev => prev + 1);
 

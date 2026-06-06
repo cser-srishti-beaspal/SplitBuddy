@@ -1,20 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { useAppLayout } from './Layout.tsx';
-import supabase from '../supabaseClient.ts';
+import { useAppLayout } from './Layout';
+import supabase from '../supabaseClient';
 import { 
   ArrowUpRight, 
   ArrowDownLeft, 
-  DollarSign, 
-  Users, 
-  UserPlus, 
   CheckCircle,
   PlusCircle,
   TrendingUp,
   Activity
 } from 'lucide-react';
-import { Profile, DebtSummary, ActivityItem } from '../types.ts';
-import SettleForm from './SettleForm.tsx';
-import ExpenseForm from './ExpenseForm.tsx';
+import { Profile, DebtSummary, ActivityItem } from '../types';
+import SettleForm from './SettleForm';
+import ExpenseForm from './ExpenseForm';
 
 export default function Dashboard() {
   const { profile, refreshKey, triggerRefresh } = useAppLayout();
