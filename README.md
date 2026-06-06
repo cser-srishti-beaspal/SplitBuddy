@@ -2,6 +2,8 @@
 
 **SplitBuddy** is a modern, 100% mobile-friendly, premium Progressive Web App (PWA) that clones the core functionality of Splitwise. Built using **React + TypeScript + Vite** and powered by **Supabase Online Database**, it allows users to track joint expenses, create custom groups, maintain separate friend ledgers, and settle debts using an automated **Debt Simplification Algorithm**.
 
+🚀 **Live Demo:** [https://split-buddy-hybp.vercel.app/](https://split-buddy-hybp.vercel.app/)
+
 ---
 
 ## ✨ Features
